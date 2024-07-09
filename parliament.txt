@@ -1,0 +1,13 @@
+Alberta                  02300002000000
+British Columbia         14130013010001
+Manitoba                 04070002000001
+New Brunswick            06040000000000
+Newfoundland and Labrador06010000000000
+Northwest Territories    01000000000000
+Nova Scotia              08030000000000
+Nunavut                  00000001000000
+Ontario                  75380005010200
+Prince Edward Island     04000000000000
+Quebec                   34093201000101
+Saskatchewan             00140000000000
+Yukon                    01000000000000

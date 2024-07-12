@@ -29,6 +29,7 @@
        WORKING-STORAGE SECTION.
        01 SUBS.
            05 PROVINCE-SUB PIC 99.
+           05 PROVINCE-SUB-W-MAX-SEATS PIC 99.
            05 PARTY-SUB PIC 9.
            05 PARTY-SUB-WITH-MAJORITY PIC 9.
 
@@ -124,8 +125,14 @@
            PERFORM SEARCH-MAJORITY-ROWS
                VARYING PROVINCE-SUB
                FROM 1 BY 1
-               UNTIL PROVINCE-SUB = 12.
+               UNTIL PROVINCE-SUB > 12.
            PERFORM DISPLAY-FOOTER.
+           MOVE 1 TO PROVINCE-SUB-W-MAX-SEATS.
+           PERFORM SEARCH-PROVINCE-W-MAX-SEATS
+               VARYING PROVINCE-SUB
+               FROM 1 BY 1
+               UNTIL PROVINCE-SUB > 12.
+           PERFORM DISPLAY-PROVINCE-W-MAX-SEATS.
            INITIALIZE CONTINUE-MESSAGE.
            PERFORM PROMPT-CONTINUE UNTIL CONTINUE-MESSAGE = "Y"
                OR CONTINUE-MESSAGE = "n".
@@ -211,19 +218,19 @@
       * Displays the provinces where the chosen party hold a majority vote.
        DISPLAY-ROW.
            MOVE WS-PARTIES(PROVINCE-SUB, 1)
-               TO WS-DISPLAY-PARTIES-TABLE(1)
+               TO WS-DISPLAY-PARTIES-TABLE(1).
            MOVE WS-PARTIES(PROVINCE-SUB, 2)
-               TO WS-DISPLAY-PARTIES-TABLE(2)
+               TO WS-DISPLAY-PARTIES-TABLE(2).
            MOVE WS-PARTIES(PROVINCE-SUB, 3)
-               TO WS-DISPLAY-PARTIES-TABLE(3)
+               TO WS-DISPLAY-PARTIES-TABLE(3).
            MOVE WS-PARTIES(PROVINCE-SUB, 4)
-               TO WS-DISPLAY-PARTIES-TABLE(4)
+               TO WS-DISPLAY-PARTIES-TABLE(4).
            MOVE WS-PARTIES(PROVINCE-SUB, 5)
-               TO WS-DISPLAY-PARTIES-TABLE(5)
+               TO WS-DISPLAY-PARTIES-TABLE(5).
            MOVE WS-PARTIES(PROVINCE-SUB, 6)
-               TO WS-DISPLAY-PARTIES-TABLE(6)
+               TO WS-DISPLAY-PARTIES-TABLE(6).
            MOVE WS-PARTIES(PROVINCE-SUB, 7)
-               TO WS-DISPLAY-PARTIES-TABLE(7)
+               TO WS-DISPLAY-PARTIES-TABLE(7).
            DISPLAY WS-PROVINCE-NAME(PROVINCE-SUB)
                " "  WS-DISPLAY-PARTIES-TABLE(1)
                "  " WS-DISPLAY-PARTIES-TABLE(2)
@@ -245,6 +252,76 @@
                MOVE VALID-ROW-COUNT TO DISPLAY-VALID-ROW-COUNT
                DISPLAY "Count: " DISPLAY-VALID-ROW-COUNT
            END-IF.
+           DISPLAY SPACES.
+
+       SEARCH-PROVINCE-W-MAX-SEATS.
+           EVALUATE PARTY-CHOICE
+               WHEN "LIB"
+                   IF WS-PARTIES(PROVINCE-SUB, 1) >
+                       WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 1)
+                       MOVE PROVINCE-SUB TO PROVINCE-SUB-W-MAX-SEATS
+                   END-IF
+               WHEN "CPC"
+                   IF WS-PARTIES(PROVINCE-SUB, 2) >
+                       WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 2)
+                       MOVE PROVINCE-SUB TO PROVINCE-SUB-W-MAX-SEATS
+                   END-IF
+               WHEN "BQ "
+                   IF WS-PARTIES(PROVINCE-SUB, 3) >
+                       WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 3)
+                       MOVE PROVINCE-SUB TO PROVINCE-SUB-W-MAX-SEATS
+                   END-IF
+               WHEN "NDP"
+                   IF WS-PARTIES(PROVINCE-SUB, 4) >
+                       WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 4)
+                       MOVE PROVINCE-SUB TO PROVINCE-SUB-W-MAX-SEATS
+                   END-IF
+               WHEN "GP "
+                   IF WS-PARTIES(PROVINCE-SUB, 5) >
+                       WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 5)
+                       MOVE PROVINCE-SUB TO PROVINCE-SUB-W-MAX-SEATS
+                   END-IF
+               WHEN "IND"
+                   IF WS-PARTIES(PROVINCE-SUB, 6) >
+                       WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 6)
+                       MOVE PROVINCE-SUB TO PROVINCE-SUB-W-MAX-SEATS
+                   END-IF
+               WHEN "VAC"
+                   IF WS-PARTIES(PROVINCE-SUB, 7) >
+                       WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 7)
+                       MOVE PROVINCE-SUB TO PROVINCE-SUB-W-MAX-SEATS
+                   END-IF
+           END-EVALUATE.
+
+       DISPLAY-PROVINCE-W-MAX-SEATS.
+           MOVE WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 1)
+               TO WS-DISPLAY-PARTIES-TABLE(1).
+           MOVE WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 2)
+               TO WS-DISPLAY-PARTIES-TABLE(2).
+           MOVE WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 3)
+               TO WS-DISPLAY-PARTIES-TABLE(3).
+           MOVE WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 4)
+               TO WS-DISPLAY-PARTIES-TABLE(4).
+           MOVE WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 5)
+               TO WS-DISPLAY-PARTIES-TABLE(5).
+           MOVE WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 6)
+               TO WS-DISPLAY-PARTIES-TABLE(6).
+           MOVE WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 7)
+               TO WS-DISPLAY-PARTIES-TABLE(7).
+           DISPLAY SPACES.
+           DISPLAY "Province with the most seats for: " PARTY-CHOICE
+           DISPLAY SPACES.
+           DISPLAY "Province:                 LIB|CPC|BQ |NDP|GP |IND|"
+               "VAC".
+           DISPLAY SPACER.
+           DISPLAY WS-PROVINCE-NAME(PROVINCE-SUB-W-MAX-SEATS)
+               " "  WS-DISPLAY-PARTIES-TABLE(1)
+               "  " WS-DISPLAY-PARTIES-TABLE(2)
+               "  " WS-DISPLAY-PARTIES-TABLE(3)
+               "  " WS-DISPLAY-PARTIES-TABLE(4)
+               "  " WS-DISPLAY-PARTIES-TABLE(5)
+               "  " WS-DISPLAY-PARTIES-TABLE(6)
+               "  " WS-DISPLAY-PARTIES-TABLE(7).
            DISPLAY SPACES.
 
       * Asks user if he/she would like to continue. If yes, continues the IO-LOOP. If not, ends the IO-LOOP. If neither answer is given, prompts the user again.

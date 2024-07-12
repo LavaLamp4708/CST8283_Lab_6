@@ -254,6 +254,7 @@
            END-IF.
            DISPLAY SPACES.
 
+      * Searches the province holding the most seats for the chosen party
        SEARCH-PROVINCE-W-MAX-SEATS.
            EVALUATE PARTY-CHOICE
                WHEN "LIB"
@@ -293,6 +294,7 @@
                    END-IF
            END-EVALUATE.
 
+      * Displays the province holding the most seats for the chosen party.
        DISPLAY-PROVINCE-W-MAX-SEATS.
            MOVE WS-PARTIES(PROVINCE-SUB-W-MAX-SEATS, 1)
                TO WS-DISPLAY-PARTIES-TABLE(1).
